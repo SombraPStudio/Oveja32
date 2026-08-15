@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Images/Assets/Bedroom/nightstandclock-export.png" type="Texture" id=1]
+[ext_resource path="res://scripts/nightstand.gd" type="Script" id=2]
+[ext_resource path="res://Images/Assets/Bedroom/nightstandclockoff.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 32 )
+
+[node name="nightstand" type="StaticBody2D"]
+scale = Vector2( 1.25, 1.25 )
+script = ExtResource( 2 )
+off_clock = ExtResource( 3 )
+on_clock = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.4

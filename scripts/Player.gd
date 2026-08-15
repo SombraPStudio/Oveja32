@@ -3,6 +3,7 @@ extends KinematicBody2D
 export (int) var velocidad = 250
 export (float) var distancia_adelanto = 60.0
 export (float, 0.01, 1.0) var suavizado_adelanto = 0.05
+export (Vector2) var offset_camara = Vector2.ZERO
 
 var shot_cooldown = 1
 
@@ -52,7 +53,7 @@ func _physics_process(delta):
 	move_and_slide(velocidad_movimiento)
 
 func _procesar_adelanto_camara(dir: Vector2):
-	var offset_objetivo = dir * distancia_adelanto
+	var offset_objetivo = offset_camara + (dir * distancia_adelanto)
 	camara.offset = lerp(camara.offset, offset_objetivo, suavizado_adelanto)
 
 func _procesar_animacion(dir: Vector2):

@@ -72,21 +72,25 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 15.4875, 28.125 )
+extents = Vector2( 28.4964, 21.041 )
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
+z_index = 2
 script = ExtResource( 2 )
 velocidad = 200
+offset_camara = Vector2( 0, -64 )
 
 [node name="Player" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -64 )
+position = Vector2( -1, -66 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 7 )
-animation = "Walk_Side"
+animation = "Walk_Down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 1.49968, -28.052 )
+position = Vector2( -0.502789, -20.9556 )
 rotation = -0.00612212
 shape = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( 0, -64 )
+zoom = Vector2( 0.65, 0.65 )
