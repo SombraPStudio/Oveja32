@@ -1,17 +1,28 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Images/Assets/Bedroom/nightstandclock-export.png" type="Texture" id=1]
 [ext_resource path="res://scripts/nightstand.gd" type="Script" id=2]
 [ext_resource path="res://Images/Assets/Bedroom/nightstandclockoff.png" type="Texture" id=3]
+[ext_resource path="res://Sounds/Sfx/Clock_Theme.mp3" type="AudioStream" id=4]
+[ext_resource path="res://fonts/Jersey10-Regular.ttf" type="DynamicFontData" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 32 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 65
+outline_size = 2
+font_data = ExtResource( 5 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 21.4, 39.9 )
 
 [node name="nightstand" type="StaticBody2D"]
 scale = Vector2( 1.25, 1.25 )
 script = ExtResource( 2 )
 off_clock = ExtResource( 3 )
 on_clock = ExtResource( 1 )
+ClockTheme = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -23,3 +34,30 @@ shape = SubResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.4
+
+[node name="Interact" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -31.0
+margin_top = -34.0
+margin_right = 34.0
+margin_bottom = 37.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Z"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="InteractZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractZone"]
+position = Vector2( 0.200001, 30.5 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="InteractZone" to="." method="_on_InteractZone_body_entered"]
+[connection signal="body_exited" from="InteractZone" to="." method="_on_InteractZone_body_exited"]

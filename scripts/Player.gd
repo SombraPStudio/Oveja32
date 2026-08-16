@@ -4,14 +4,18 @@ export (int) var velocidad = 250
 export (float) var distancia_adelanto = 60.0
 export (float, 0.01, 1.0) var suavizado_adelanto = 0.05
 export (Vector2) var offset_camara = Vector2.ZERO
-
-var shot_cooldown = 1
+export (float) var TypingSpeed = 0.08
+export (AudioStream) var player_voice
+export (AudioStream) var player_erase_voice
 
 var joystick_ref = null
 var velocidad_movimiento = Vector2.ZERO
+var is_typing = false
 
+onready var label = $Label
 onready var sprite = $Player
 onready var camara = $Camera2D
+onready var AudioS = $AudioStreamPlayer2D
 
 func _ready():
 	var UI = get_node_or_null("../CanvasLayer")
@@ -69,3 +73,48 @@ func _procesar_animacion(dir: Vector2):
 			sprite.play("Walk_Up")
 		else:
 			sprite.play("Walk_Down")
+
+func reproducir_sonido_tipeo():
+	var asp = AudioStreamPlayer.new()
+	asp.stream = player_voice
+	asp.pitch_scale = rand_range(0.95, 1.05)
+	if AudioS:
+		asp.bus = AudioS.bus
+		
+	add_child(asp)
+	asp.play()
+	asp.connect("finished", asp, "queue_free")
+
+
+func reproducir_sonido_erase():
+	var asp = AudioStreamPlayer.new()
+	asp.stream = player_voice
+	asp.pitch_scale = rand_range(-1.05, -0.95)
+	if AudioS:
+		asp.bus = AudioS.bus
+		
+	add_child(asp)
+	asp.play()
+	asp.connect("finished", asp, "queue_free")
+
+
+func tipyngtext(text: String, standtime: float):
+	if is_typing:
+		return
+	
+	is_typing = true
+	label.text = ""
+	
+	for i in range(text.length()):
+		label.text += text[i]
+		reproducir_sonido_tipeo()
+		yield(get_tree().create_timer(TypingSpeed), "timeout")
+	
+	yield(get_tree().create_timer(standtime), "timeout")
+	
+	while label.text.length() > 0:
+		label.text = label.text.substr(0, label.text.length() - 1)
+		reproducir_sonido_erase()
+		yield(get_tree().create_timer(TypingSpeed / 2), "timeout")
+	
+	is_typing = false

@@ -34,6 +34,7 @@ var ultimo_caracter_mostrado: int = 0
 var sonido_actual_hablante: AudioStream = null
 
 func _ready():
+	AudioS.bus = "Sfx"
 	hide()
 	cargar_json()
 	tween.connect("tween_completed", self, "_on_Tween_completed")

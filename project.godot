@@ -20,7 +20,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Sally in the dreams"
+config/name="Wake up, Sally"
 run/main_scene="res://Dreams/SubDream/Main.tscn"
 config/icon="res://icon.png"
 
